@@ -92,6 +92,16 @@
             margin-bottom: 16px;
         }
 
+        .form-row-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .form-row-2col .form-group {
+            margin-bottom: 0;
+        }
+
         .form-group label {
             display: block;
             font-weight: 600;
@@ -108,7 +118,10 @@
             padding: 10px 14px;
             font-size: 15px;
             background-color: #ffffff;
+            color: var(--text);
             transition: border-color 0.2s;
+            display: block;
+            line-height: 1.4;
         }
 
         .form-control:focus {
@@ -327,106 +340,37 @@
             cursor: pointer;
         }
 
-        /* Action Buttons Grid */
-        .action-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+        /* Unified Layout Style for Block Button Layout */
+        .action-container-full {
+            width: 100%;
             margin-top: 10px;
         }
 
-        .btn-base {
+        .btn-pdf-block {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 50px;
+            width: 100%;
+            height: 54px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             cursor: pointer;
             border: none;
-            transition: background 0.2s;
-        }
-
-        .btn-submit {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 6px rgba(26, 54, 93, 0.2);
-        }
-        .btn-submit:hover { background: #10223b; }
-
-        .btn-pdf {
             background: #e53e3e;
             color: white;
             box-shadow: 0 4px 6px rgba(229, 62, 62, 0.2);
+            transition: background 0.2s;
         }
-        .btn-pdf:hover { background: #9b2c2c; }
-
-        .saved-badge {
-            background: #c6f6d5;
-            color: #22543d;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 20px;
-            display: none;
-            font-size: 14px;
-        }
-
-        /* History Table Dashboard Styles */
-        .history-table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 10px;
-        }
-        .history-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12.5px;
-            text-align: left;
-        }
-        .history-table th {
-            background: #edf2f7;
-            color: var(--primary);
-            font-weight: 700;
-            padding: 10px;
-            border-bottom: 2px solid var(--border);
-            white-space: nowrap;
-        }
-        .history-table td {
-            padding: 10px;
-            border-bottom: 1px solid var(--border);
-            color: #4a5568;
-            white-space: nowrap;
-        }
-        .history-table tr:last-child td { border-bottom: none; }
-        .history-table tr:nth-child(even) { background: #fafbfe; }
-        .empty-history-text {
-            font-size: 13px;
-            color: #a0aec0;
-            text-align: center;
-            padding: 20px 0;
-        }
-        .btn-clear-history {
-            background: none;
-            border: none;
-            color: #e53e3e;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            float: right;
-            margin-top: -24px;
-            text-transform: uppercase;
-        }
+        .btn-pdf-block:hover { background: #9b2c2c; }
 
         /* Print Media Style Overrides for flawless PDF Generation output layout */
         @media print {
             body { background: white; color: black; padding: 0; }
             .card { box-shadow: none; border: 1px solid #cbd5e0; padding: 15px; margin-bottom: 15px; page-break-inside: avoid; }
-            .action-grid, .photo-upload-zone, .clear-btn, .saved-badge, .history-card { display: none !important; }
+            .action-container-full, .photo-upload-zone, .clear-btn { display: none !important; }
             header { background: #1a365d !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             header h2 { color: #cbd5e0 !important; }
             .opt-label:has(input:checked) { background-color: #1a365d !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -439,35 +383,40 @@
 <body>
 
 <div class="container">
-    <div id="saveNotification" class="saved-badge">✓ Form saved locally offline successfully!</div>
-    
-    <form id="signoffForm">
+    <form id="signoffForm" onsubmit="event.preventDefault();">
+        <!-- Brand Header -->
         <header>
             <h2>Exclusive Floors</h2>
             <h1>Installation Sign-Off</h1>
             <p>Digital walkthrough, quality audit evaluation, and job sign-off validation workspace.</p>
         </header>
 
+        <!-- Section 1: Project Information -->
         <div class="card">
             <h3>1. Project Information</h3>
-            <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div>
+            
+            <!-- Row 1: Customer and Job Number -->
+            <div class="form-row-2col">
+                <div class="form-group">
                     <label>Customer Name</label>
                     <input type="text" id="custName" class="form-control" required>
                 </div>
                 <div>
-                    <label>Job#</label>
-                    <input type="text" id="jobNum" class="form-control" required>
+                    <div class="form-group">
+                        <label>Job#</label>
+                        <input type="text" id="jobNum" class="form-control" required>
+                    </div>
                 </div>
             </div>
             
-            <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div>
+            <!-- Row 2: Job Address and Store Selector -->
+            <div class="form-row-2col">
+                <div class="form-group">
                     <label>Job Address</label>
                     <input type="text" id="jobAddr" class="form-control" required>
                 </div>
-                <div>
-                    <label>Exclusive Floors Location</label>
+                <div class="form-group">
+                    <label>Exclusive Floors</label>
                     <select id="storeLocation" class="form-control" required>
                         <option value="" disabled selected>Select Store...</option>
                         <option value="Surrey">Surrey</option>
@@ -477,18 +426,20 @@
                 </div>
             </div>
             
-            <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div>
+            <!-- Row 3: Completion Date and Installer -->
+            <div class="form-row-2col" style="margin-bottom: 0;">
+                <div class="form-group">
                     <label>Completion Date</label>
                     <input type="date" id="compDate" class="form-control" required>
                 </div>
-                <div>
-                    <label>Lead Installer</label>
+                <div class="form-group">
+                    <label>Installer</label>
                     <input type="text" id="installerName" class="form-control" required>
                 </div>
             </div>
             
-            <div style="margin-top: 16px;">
+            <!-- Flooring Checklist Blocks -->
+            <div style="margin-top: 24px;">
                 <label style="display:block; font-weight:600; font-size:14px; margin-bottom:6px;">Flooring Types Installed</label>
                 <div class="flooring-grid">
                     <label class="cb-label"><input type="checkbox" name="fType" value="Hardwood"> Hardwood</label>
@@ -499,6 +450,7 @@
                     <label class="cb-label"><input type="checkbox" name="fType" id="floorOtherCb" value="Other"> Other</label>
                 </div>
                 
+                <!-- Conditional Input Container -->
                 <div class="conditional-field" id="otherFlooringContainer">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label style="color: var(--secondary);">Describe "Other" Scope of Work done:</label>
@@ -508,6 +460,7 @@
             </div>
         </div>
 
+        <!-- Section 2 -->
         <div class="card">
             <h3>2. Installation Excellence Evaluation</h3>
             
@@ -560,6 +513,7 @@
             </div>
         </div>
 
+        <!-- Section 3 -->
         <div class="card">
             <h3>3. Final Walkthrough Checklist</h3>
             
@@ -584,6 +538,7 @@
             </label>
         </div>
 
+        <!-- Photo Selection Section -->
         <div class="card">
             <h3>4. Site Documentation Photos</h3>
             <div class="photo-upload-zone" onclick="document.getElementById('photoInput').click()">
@@ -593,11 +548,13 @@
             <div id="photoPreviewGrid" class="photo-preview-grid"></div>
         </div>
 
+        <!-- Section 4 -->
         <div class="card">
             <h3>5. Additional Comments</h3>
             <textarea id="comments" class="form-control" placeholder="Enter any notable comments, context or field variance adjustments here..."></textarea>
         </div>
 
+        <!-- Section 5 Signatures -->
         <div class="card">
             <h3>6. Final Sign-Off &amp; Acceptance</h3>
             
@@ -620,46 +577,15 @@
             </div>
         </div>
 
-        <div class="action-grid">
-            <button type="submit" class="btn-base btn-submit">Save Record Locally</button>
-            <button type="button" class="btn-base btn-pdf" onclick="generateSmartPDF()">Create PDF / Print</button>
+        <!-- Unified Single Call-to-Action Footer -->
+        <div class="action-container-full">
+            <button type="button" class="btn-pdf-block" onclick="generateSmartPDF()">Create PDF / Print Report</button>
         </div>
     </form>
-
-    <div class="card history-card" style="margin-top: 25px; border-color: #cbd5e0;">
-        <h3>7. Sign-Off Storage History</h3>
-        <button type="button" class="btn-clear-history" onclick="clearAllHistory()">Clear Dashboard</button>
-        <div class="history-table-wrapper">
-            <table class="history-table" id="historyTable">
-                <thead>
-                    <tr>
-                        <th style="width: 12%;">Date</th>
-                        <th style="width: 15%;">Location</th>
-                        <th style="width: 18%;">Customer</th>
-                        <th style="width: 12%;">Job#</th>
-                        <th style="width: 23%;">Job Address</th>
-                        <th style="width: 12%;">Installer</th>
-                        <th style="width: 8%;">Photos</th>
-                    </tr>
-                </thead>
-                <tbody id="historyTableBody">
-                    </tbody>
-            </table>
-            <div id="emptyHistoryMessage" class="empty-history-text">No records saved on this device memory yet.</div>
-        </div>
-    </div>
 </div>
 
 <script>
     let loadedPhotosCount = 0;
-
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('Service Worker Operational.'))
-                .catch(err => console.log('SW registration failed:', err));
-        });
-    }
 
     const otherFlooringCb = document.getElementById('floorOtherCb');
     const otherFlooringContainer = document.getElementById('otherFlooringContainer');
@@ -773,7 +699,7 @@
         
         if (titleParts.length > 0) {
             const dynamicName = titleParts.join(' - ');
-            document.title = dynamicName.replace(/[\\\\/:*?"<>|]/g, '');
+            document.title = dynamicName.replace(/[\\/:*?"<>|]/g, '');
         } else {
             document.title = "Exclusive Floors Sign-Off Report";
         }
@@ -785,112 +711,10 @@
         }, 1000);
     }
 
-    function updateHistoryDashboard() {
-        const entries = JSON.parse(localStorage.getItem('flooring_signoffs') || '[]');
-        const tableBody = document.getElementById('historyTableBody');
-        const emptyMsg = document.getElementById('emptyHistoryMessage');
-        const tableEl = document.getElementById('historyTable');
-
-        tableBody.innerHTML = '';
-
-        if (entries.length === 0) {
-            tableEl.style.display = 'none';
-            emptyMsg.style.display = 'block';
-            return;
-        }
-
-        tableEl.style.display = 'table';
-        emptyMsg.style.display = 'none';
-
-        entries.reverse().forEach(item => {
-            const row = document.createElement('tr');
-            
-            const dateCell = document.createElement('td');
-            dateCell.textContent = item.completionDate || 'N/A';
-            row.appendChild(dateCell);
-
-            const locationCell = document.createElement('td');
-            locationCell.textContent = item.storeLocation || 'N/A';
-            locationCell.style.color = '#2b6cb0';
-            locationCell.style.fontWeight = '500';
-            row.appendChild(locationCell);
-
-            const customerCell = document.createElement('td');
-            customerCell.textContent = item.customerName || 'N/A';
-            customerCell.style.fontWeight = '600';
-            row.appendChild(customerCell);
-
-            const jobNumCell = document.createElement('td');
-            jobNumCell.textContent = item.jobNumber || 'N/A';
-            row.appendChild(jobNumCell);
-
-            const addressCell = document.createElement('td');
-            addressCell.textContent = item.jobAddress || 'N/A';
-            row.appendChild(addressCell);
-
-            const installerCell = document.createElement('td');
-            installerCell.textContent = item.installer || 'N/A';
-            row.appendChild(installerCell);
-
-            const photoCell = document.createElement('td');
-            photoCell.textContent = item.photosAttachedCount > 0 ? `📸 ${item.photosAttachedCount}` : '0';
-            row.appendChild(photoCell);
-
-            tableBody.appendChild(row);
-        });
-    }
-
-    function clearAllHistory() {
-        if(confirm("Are you sure you want to completely wipe out the local logs dashboard memory on this tablet?")) {
-            localStorage.removeItem('flooring_signoffs');
-            updateHistoryDashboard();
-        }
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
         initCanvas('installerCanvas');
         initCanvas('customerCanvas');
         document.getElementById('compDate').valueAsDate = new Date();
-        updateHistoryDashboard();
-    });
-
-    document.getElementById('signoffForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const otherDescValue = otherFlooringCb.checked ? document.getElementById('floorOtherDesc').value : '';
-        
-        const formData = {
-            customerName: document.getElementById('custName').value,
-            jobNumber: document.getElementById('jobNum').value,
-            jobAddress: document.getElementById('jobAddr').value,
-            storeLocation: document.getElementById('storeLocation').value,
-            completionDate: document.getElementById('compDate').value,
-            installer: document.getElementById('installerName').value,
-            comments: document.getElementById('comments').value,
-            otherFlooringDescription: otherDescValue,
-            photosAttachedCount: loadedPhotosCount,
-            timestamp: new Date().toISOString()
-        };
-
-        let entries = JSON.parse(localStorage.getItem('flooring_signoffs') || '[]');
-        entries.push(formData);
-        localStorage.setItem('flooring_signoffs', JSON.stringify(entries));
-
-        const msg = document.getElementById('saveNotification');
-        msg.style.display = 'block';
-        window.scrollTo({top: 0, behavior: 'smooth'});
-
-        this.reset();
-        clearSig('installerCanvas');
-        clearSig('customerCanvas');
-        document.getElementById('photoPreviewGrid').innerHTML = '';
-        loadedPhotosCount = 0;
-        otherFlooringContainer.style.display = 'none';
-        otherFlooringInput.removeAttribute('required');
-        document.getElementById('compDate').valueAsDate = new Date();
-        updateHistoryDashboard();
-
-        setTimeout(() => { msg.style.display = 'none'; }, 4000);
     });
 </script>
 </body>
